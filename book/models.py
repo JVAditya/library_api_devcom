@@ -19,9 +19,10 @@ class Book(models.Model):
     last_returned = models.DateTimeField(auto_now=False, null=True)
     pages = models.IntegerField()
     copies = models.IntegerField(default=1)
+    issued_copies = models.IntegerField(default=0)
     author = models.CharField(max_length=25, default='abc')
     subject = models.CharField(max_length=20, choices=SUBJECTS, default='CS')
-    student = models.ForeignKey(Student, on_delete=models.DO_NOTHING, null=True)
+    student = models.ManyToManyField(Student)
 
 
     def __str__(self):

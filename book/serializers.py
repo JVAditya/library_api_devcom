@@ -10,6 +10,7 @@ class BookPostSerializer(serializers.ModelSerializer):
         read_only_fields = [
             'last_issued',
             'last_returned',
+            'issued_copies',
             'student',
         ]
 
@@ -24,6 +25,7 @@ class BookPutSerializer(serializers.ModelSerializer):
             'last_returned',
             'pages',
             'copies',
+            'issued_copies',
             'author',
             'subject',
         ]

@@ -46,7 +46,7 @@ class BookRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     def put(self, request, *args, **kwargs):
         book_obj = self.get_object()
-        if book_obj.student is not None:
+        '''if book_obj.student is not None:
             if request.data['student'] != '':
                 raise ValueError('Book is already given to a student')
             else:
@@ -70,8 +70,29 @@ class BookRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
             serializer.is_valid()
             serializer.save()
             book_obj.last_issued = datetime.now(timezone('Asia/Kolkata'))
+            book_obj.save()'''
+        if book_obj.issued_copies < book_obj.copies:
+            serializer = RegisterSerializer(data={
+                'student_roll_no':request.data['student'],
+                'book_name':book_obj.name,
+                'status':'ISD',
+            })
+            serializer.is_valid()
+            serializer.save()
+            book_obj.last_issued = datetime.now(timezone('Asia/Kolkata'))
+            book_obj.issued_copies += 1
+
+            stdts = Student.objects.all()
+            for stdnt in stdts:
+                if stdnt.roll_no == request.data['student']:
+                    print(stdnt.roll_no)
+                    book_obj.student.add(stdnt)
+            print(book_obj.student.all())
+            
             book_obj.save()
 
+        else:
+            raise ValueError('No more books of this type available')
         
 
         print('book put request')
