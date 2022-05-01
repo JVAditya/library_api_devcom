@@ -25,6 +25,8 @@ class StudentRetrieveDeleteAPIView(generics.RetrieveDestroyAPIView):
 
     def get(self, request, *args, **kwargs):
         print('student get request')
+        obj = self.get_object()
+        print(obj.book_set.all())
         return super().get(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
