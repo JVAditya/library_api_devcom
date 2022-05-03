@@ -71,6 +71,7 @@ class BookRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
             serializer.save()
             book_obj.last_issued = datetime.now(timezone('Asia/Kolkata'))
             book_obj.save()'''
+        print(type(request.data))
         if book_obj.issued_copies < book_obj.copies:
             serializer = RegisterSerializer(data={
                 'student_roll_no':request.data['student'],
